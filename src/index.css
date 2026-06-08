@@ -1,0 +1,70 @@
+:root {
+  font-family:
+    'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #f8fafc;
+  background: #03070b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #03070b;
+}
+
+body::selection {
+  background: rgba(216, 255, 98, 0.28);
+  color: #f8fafc;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(24, 160, 255, 0.5), rgba(216, 255, 98, 0.55));
+  border-radius: 999px;
+}
