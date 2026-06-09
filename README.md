@@ -1,16 +1,410 @@
-# React + Vite
+# Personal Resume Webpage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+基于 `React + Vite` 搭建的个人作品集网站项目，面向 AI 开发工程师、RPA 开发工程师、AI Agent 开发工程师、Python 开发工程师等岗位方向进行展示。
 
-Currently, two official plugins are available:
+项目当前聚焦于桌面端视觉表达，整体采用暗色、克制、科技感的设计语言，并围绕个人经历、项目能力、技术栈与职业定位进行信息呈现。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 项目定位
 
-## React Compiler
+这是一个用于个人求职、项目展示和后续持续打磨的个人主页项目，目标不是模板化的简历站，而是更偏作品集风格的个人品牌页面。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+当前版本已完成：
 
-## Expanding the ESLint configuration
+- 全屏 Hero 首屏
+- 暗色科技感视觉基调
+- 动态标题展示
+- 技术栈滚动胶囊标签
+- 个人经历模块
+- 精选项目模块
+- 个人优势模块
+- 联系方式整屏收尾模块
+- 基础头像、人物介绍卡与数据卡展示
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+后续可以继续补充：
+
+- 真实联系方式
+- 更多项目截图与作品详情
+- 更完整的视觉动效
+- 更强的移动端适配
+- 更细的文案打磨与品牌化表达
+
+## 技术方案
+
+### 前端框架
+
+- React 19
+- Vite 8
+
+### 工程依赖
+
+- react
+- react-dom
+- vite
+- @vitejs/plugin-react
+- eslint
+
+### 实现特点
+
+- 单页作品集结构
+- 自定义暗色科技风 UI
+- 玻璃拟态卡片
+- Hero 标题打字动画
+- 双向滚动技术栈胶囊标签
+- 本地静态资源管理
+- 可直接扩展为更完整的个人品牌站
+
+## 启动方式
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 启动开发环境
+
+```bash
+npm run dev
+```
+
+### 生产构建
+
+```bash
+npm run build
+```
+
+### 本地预览
+
+```bash
+npm run preview
+```
+
+## 当前页面结构
+
+### 1. Hero 首屏
+
+包含：
+
+- 顶部导航栏
+- 视频背景
+- 玻璃磨砂主卡
+- 动态主标题
+- 技术栈滚动标签
+- 个人简介
+- CTA 按钮
+- 右侧人物介绍卡
+- 右侧数据概览卡
+
+### 2. Personal Experience 个人经历
+
+包含：
+
+- 头像
+- 姓名与岗位方向
+- 个人总结
+- 联系方向
+- 工作经历时间轴
+
+### 3. Selected Projects 精选项目
+
+包含：
+
+- AI Agent 工作流项目
+- 电商自动化流程体系项目
+- 生图 / 生视频私有化生产系统项目
+
+### 4. Core Strengths 个人优势
+
+包含：
+
+- 跨角色复合能力
+- 0 到 1 交付能力
+- 电商场景深度理解
+- AI 工具工程化落地
+
+### 5. Contact & Collaboration 联系页
+
+包含：
+
+- 联系引导文案
+- 邮件入口
+- 返回顶部入口
+
+## 个人简介
+
+姓名：陈鑫
+
+英文名展示：Chin Chan
+
+职业方向：
+
+- AI 开发工程师
+- RPA 开发工程师
+- AI Agent 开发工程师
+- Python 开发工程师
+
+个人定位：
+
+专注于把自动化、AI Agent、AIGC 与真实业务场景结合，擅长从 0 到 1 搭建自动化体系、业务系统、智能体工作流与内容生成能力，让 AI 真正进入生产环境。
+
+## 核心技术栈
+
+### 编程语言与开发方向
+
+- Python
+- Java
+- JavaScript
+- TypeScript
+
+### AI / Agent / Workflow
+
+- AI Agent
+- n8n
+- Coze / 扣子
+- ComfyUI
+- AIGC
+- Workflow
+- Business System
+
+### RPA 方向
+
+- 影刀 RPA
+- 实在智能 RPA
+- 蓝印 RPA
+
+### 前端与 Web
+
+- React
+- Vite
+
+### 后端与服务
+
+- FastAPI
+- Spring Boot
+- MyBatis-Plus
+
+### 数据库与缓存
+
+- MySQL
+- SQLite
+- PostgreSQL
+- Redis
+
+### 消息队列与数据处理
+
+- RocketMQ
+- RabbitMQ
+- Pandas
+- NumPy
+
+### BI 与数据分析
+
+- 帆软 BI
+
+## 工作经历
+
+### 2024.11 - 至今
+
+公司方向：电商厨具品牌
+
+公司名称：百畅 / 韩笑
+
+职位：
+
+- RPA 开发工程师
+- RPA 开发组长
+- AI Agent 开发管理
+- AI 系统架构师
+
+主要工作内容：
+
+#### 1. RPA 自动化建设
+
+围绕电商平台业务场景进行自动化建设，覆盖：
+
+- 物流赔付
+- 保证金导出
+- 待揽收 / 仅退款发群拦截 / 微信联动
+- 淘宝竞品店铺新上架商品抓取
+- 抖音蝉妈妈潜力爆品抓取
+
+业务价值：
+
+- 将公司从 0 自动化推进到全平台自动化覆盖
+- 对接财务部与客服部等关键业务部门
+- 参与流程制定后，单部门任务耗时下降约 60%
+- 大幅减少重复人工操作
+
+典型案例：
+
+财务凭据单录入财务系统，原本人工耗时 3-4 天，经 RPA 接手后，RPA 执行耗时约 2 天，并基本消除人工重复录入成本。
+
+#### 2. AI 系统架构建设
+
+与业务开发一起搭建公司业务系统，覆盖智能选品场景：
+
+- 新品挖掘进入新品池
+- AI 分析新品可行度
+- 可行结果展示给业务人员
+- 业务投票决定是否打品
+- 确认后对接采购执行采购流程
+
+#### 3. AIGC 生产系统建设
+
+对接抖音新媒体部门与设计部门，开发：
+
+- 生图系统
+- 生视频系统
+
+建设目标：
+
+- 提升内容生产效率
+- 推动生成数据本地化沉淀
+- 为后续企业内部 AI 训练提供数据资产
+- 控制 AI 使用成本
+
+#### 4. AI Agent 与工作流建设
+
+使用：
+
+- 扣子
+- Gem
+- n8n
+- ComfyUI
+
+为业务搭建智能体与工作流系统，覆盖：
+
+- 小红书文案
+- 商品卡文案
+- 运营商品生图
+- 业务决策辅助
+
+落地方式：
+
+- 在 AI 早期快速推动公司 AI 化转型
+- 对模型账号进行批量采购与分发
+- 为美工与运营搭建可复制流程
+- 对提示词体系进行统一优化
+- 最终形成小白运营可直接复制粘贴使用的 Prompt 模板
+
+#### 5. Claw 能力建设
+
+部署：
+
+- Open Claw
+- Hermes
+- OpenHuman
+
+并将 Claw 接入公司钉钉，实现本地个性化 Skill：
+
+- 批量白底图生成
+- 批量模特图生成
+- 竞品店铺监控
+- 批量上下架
+
+Skill 覆盖电商全链路：
+
+- 1688 选品
+- 找图
+- 生图
+- 文案生成
+- 排版详情
+- 上架
+
+已覆盖平台：
+
+- 淘宝
+- 抖店
+
+### 2022.03 - 2024.10
+
+公司方向：电商美妆品牌
+
+公司名称：碧莹 / 欧佩 / 兰韵
+
+职位：
+
+- RPA 实习开发
+
+主要工作内容：
+
+- 面向京东、抖音、拼多多、淘宝、淘工厂、天猫、淘特、1688、快手小店、小红书等平台进行流程自动化建设
+- 参与涉税信息导出、纸质发票处理、客服绩效数据汇总导出等业务流程自动化
+- 积累国内主流全电商平台流程经验
+- 沉淀跨平台流程复用能力
+
+这段经历可以在后续简历正式版本中进一步包装为：
+
+- 一年实习经验
+- 电商自动化方向初始阶段能力积累
+- 全平台业务流程理解与执行落地能力
+
+## 个人优势
+
+### 跨角色复合能力
+
+同时覆盖 Python 开发、RPA、AI Agent、系统架构和业务流程设计，能够把技术方案真正推进到业务落地。
+
+### 0 到 1 搭建能力
+
+擅长从模糊需求中拆出闭环，快速完成 MVP，并把原型沉淀成团队可持续复用的系统或工作流。
+
+### 电商场景深度理解
+
+熟悉主流电商平台运营、履约与内容生产链路，能够把自动化、智能体和 AIGC 放到真实业务节点中发挥价值。
+
+### AI 工程化落地能力
+
+不仅关注模型调用本身，也关注提示词标准化、账号策略、组织推广、私有化沉淀与使用成本控制。
+
+## 当前项目资源说明
+
+### 已接入资源
+
+- 首页背景视频资源
+- 头像图片资源
+- Hero 动态标题
+- 双向滚动技能标签
+
+### 可继续补充的资源
+
+- 项目截图
+- 项目链接
+- 联系邮箱 / 微信 / GitHub / 掘金 / 博客
+- PDF 简历入口
+- 下载按钮
+
+## 适用场景
+
+本项目适用于：
+
+- 求职作品集主页
+- 个人品牌展示
+- 面试前自我介绍落地页
+- AI / RPA / Agent 方向个人站
+
+## 后续优化建议
+
+### 视觉方向
+
+- 统一字体策略
+- 强化人物卡设计感
+- 优化首屏标题排版
+- 增强高质量动效节奏
+
+### 内容方向
+
+- 增补真实项目案例
+- 拆出代表性项目详情页
+- 添加企业落地成果数字化证明
+
+### 工程方向
+
+- 引入 TypeScript
+- 拆分组件结构
+- 增加数据配置文件
+- 增加部署说明
+
+## 版权与说明
+
+本项目为个人作品集页面开发项目，内容基于当前已提供的个人经历与需求整理生成，后续可继续根据真实简历、项目截图和参考站点持续优化。
