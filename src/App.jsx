@@ -28,7 +28,7 @@ const timeline = [
   {
     period: '2024.11 - 至今',
     role: 'RPA 开发工程师 / 组长 / AI Agent 开发管理 / AI 系统架构',
-    company: '电商厨具品牌 · 百畅 / 韩笑',
+    company: '任职公司：广州乐百畅厨具有限公司（百畅 / 韩笑）',
     description:
       '从 0 到 1 搭建公司自动化与 AI 体系，面向财务、客服、新媒体、设计与业务团队交付流程平台、智能选品系统、AIGC 生产系统和业务智能体。',
     highlights: [
@@ -41,7 +41,7 @@ const timeline = [
   {
     period: '2022.03 - 2024.10',
     role: 'RPA 实习开发',
-    company: '电商美妆品牌 · 碧莹 / 欧佩 / 兰韵',
+    company: '任职公司：广州碧莹化妆品有限公司 / 广州欧佩化妆品有限公司',
     description:
       '服务京东、抖音、拼多多、淘宝、天猫、1688、快手、小红书等主流电商平台，推进财务、客服和运营类流程的标准化与自动化。',
     highlights: [
@@ -376,6 +376,11 @@ function App() {
   const metricAnimationStartedRef = useRef(false)
 
   useEffect(() => {
+    if (window.innerWidth <= 640) {
+      setTypedHeadline(heroHeadlineFullText)
+      return undefined
+    }
+
     let charIndex = 0
     let timerId
 
@@ -385,11 +390,11 @@ function App() {
 
       if (nextCharIndex < heroHeadlineFullText.length) {
         charIndex = nextCharIndex
-        timerId = window.setTimeout(typeNextCharacter, 145)
+        timerId = window.setTimeout(typeNextCharacter, 120)
       }
     }
 
-    timerId = window.setTimeout(typeNextCharacter, 260)
+    timerId = window.setTimeout(typeNextCharacter, 180)
 
     return () => window.clearTimeout(timerId)
   }, [])
@@ -519,6 +524,62 @@ function App() {
       window.removeEventListener('resize', clearHoveredSkill)
     }
   }, [hoveredSkill])
+
+  useEffect(() => {
+    if (window.innerWidth > 640) {
+      return undefined
+    }
+
+    const stackCards = Array.from(document.querySelectorAll('[data-mobile-stack-card]'))
+
+    if (!stackCards.length) {
+      return undefined
+    }
+
+    stackCards.forEach((card, index) => {
+      card.style.setProperty('--stack-delay', `${index * 90}ms`)
+    })
+
+    const revealCard = (card) => {
+      card.classList.add('mobile-stack-visible')
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      stackCards.forEach(revealCard)
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && entry.intersectionRatio < 0.2) {
+            return
+          }
+
+          revealCard(entry.target)
+          observer.unobserve(entry.target)
+        })
+      },
+      {
+        threshold: [0.12, 0.24, 0.4],
+        rootMargin: '0px 0px -8% 0px',
+      },
+    )
+
+    stackCards.forEach((card) => {
+      const rect = card.getBoundingClientRect()
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+
+      if (rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.05) {
+        revealCard(card)
+        return
+      }
+
+      observer.observe(card)
+    })
+
+    return () => observer.disconnect()
+  }, [])
 
   const headlineTyping = typedHeadline.length < heroHeadlineFullText.length
 
@@ -766,7 +827,7 @@ function App() {
             </div>
 
             <div className="hero-side-column">
-              <div className="hero-persona glass-panel">
+              <div className="hero-persona glass-panel" data-mobile-stack-card>
                 <p className="persona-kicker">人物介绍</p>
                 <div className="persona-name">
                   <div className="persona-identity">
@@ -781,7 +842,7 @@ function App() {
                 </p>
               </div>
 
-              <div className="hero-side glass-panel">
+              <div className="hero-side glass-panel" data-mobile-stack-card>
                 <div className="status-chip">Available for Opportunity</div>
                 <div className="signal-card">
                   <p>Focus</p>

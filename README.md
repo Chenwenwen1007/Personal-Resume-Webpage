@@ -4,6 +4,8 @@
 
 ## 页面预览
 
+在线展示：[https://chenwenwen1007.github.io/Personal-Resume-Webpage/#home](https://chenwenwen1007.github.io/Personal-Resume-Webpage/#home)
+
 ### 首页展示
 
 ![首页展示](./public/readme/banner.png)
