@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
-import profileAvatar from './assets/profile-avatar-square.png'
-import wechatQr from './assets/wechat-qr-b.png'
+import profileAvatar from '../img/profile-avatar-square.png'
+import rpaProofImage from '../img/rpa-proof-2026-06-10.png'
+import wechatQr from '../img/wechat-qr-b.png'
+import LiquidEther from './components/LiquidEther'
+
+const heroLiquidEtherColors = ['#d8ff62', '#63d9ff', '#f4fbff']
 
 const navigation = [
   { label: 'Home Page', href: '#home' },
@@ -12,10 +16,12 @@ const navigation = [
 ]
 
 const metrics = [
-  { value: '20+', label: 'AI 工具账号与团队落地经验' },
-  { value: '60%', label: '核心部门任务耗时缩减' },
-  { value: '10+', label: '主流电商与业务平台实战' },
-  { value: '0→1', label: '自动化与 AI 系统搭建经历' },
+  { countTo: 20, label: 'AI 工具账号与团队落地经验', suffix: '+' },
+  { countTo: 60, label: '核心部门任务耗时缩减', suffix: '%' },
+  { countTo: 100, label: '企业 AI 覆盖率', suffix: '%' },
+  { countTo: 10, label: '主流电商与业务平台实战', suffix: '+' },
+  { countTo: 300, label: '累计开发 RPA 流程数', suffix: '+' },
+  { countTo: 1, label: '自动化与 AI 系统搭建经历', prefix: '0→' },
 ]
 
 const timeline = [
@@ -360,9 +366,14 @@ function App() {
   const [typedHeadline, setTypedHeadline] = useState('')
   const [isQrPreviewOpen, setIsQrPreviewOpen] = useState(false)
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+  const [isMetricProofOpen, setIsMetricProofOpen] = useState(false)
   const [activeSkillId, setActiveSkillId] = useState('')
   const [hoveredSkill, setHoveredSkill] = useState(null)
   const [copiedChannelId, setCopiedChannelId] = useState('')
+  const [hasAnimatedMetrics, setHasAnimatedMetrics] = useState(false)
+  const [metricCounts, setMetricCounts] = useState(() => metrics.map(() => 0))
+  const metricsGridRef = useRef(null)
+  const metricAnimationStartedRef = useRef(false)
 
   useEffect(() => {
     let charIndex = 0
@@ -384,7 +395,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!isQrPreviewOpen && !isContactModalOpen && !activeSkillId) {
+    if (!isQrPreviewOpen && !isContactModalOpen && !isMetricProofOpen && !activeSkillId) {
       return undefined
     }
 
@@ -392,6 +403,7 @@ function App() {
       if (event.key === 'Escape') {
         setIsQrPreviewOpen(false)
         setIsContactModalOpen(false)
+        setIsMetricProofOpen(false)
         setActiveSkillId('')
       }
     }
@@ -399,7 +411,7 @@ function App() {
     window.addEventListener('keydown', handleKeyDown)
 
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activeSkillId, isContactModalOpen, isQrPreviewOpen])
+  }, [activeSkillId, isContactModalOpen, isMetricProofOpen, isQrPreviewOpen])
 
   useEffect(() => {
     if (!copiedChannelId) {
@@ -412,6 +424,83 @@ function App() {
 
     return () => window.clearTimeout(timerId)
   }, [copiedChannelId])
+
+  useEffect(() => {
+    const metricsGrid = metricsGridRef.current
+
+    if (!metricsGrid || metricAnimationStartedRef.current) {
+      return undefined
+    }
+
+    const startMetricsAnimation = () => {
+      if (metricAnimationStartedRef.current) {
+        return
+      }
+
+      metricAnimationStartedRef.current = true
+      setHasAnimatedMetrics(true)
+    }
+
+    const rect = metricsGrid.getBoundingClientRect()
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+    const isAlreadyVisible = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08
+
+    if (isAlreadyVisible) {
+      startMetricsAnimation()
+      return undefined
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      startMetricsAnimation()
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting && entry?.intersectionRatio <= 0.16) {
+          return
+        }
+
+        startMetricsAnimation()
+        observer.disconnect()
+      },
+      {
+        rootMargin: '0px 0px -10% 0px',
+        threshold: [0, 0.16, 0.32],
+      },
+    )
+
+    observer.observe(metricsGrid)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!hasAnimatedMetrics) {
+      return undefined
+    }
+
+    let animationFrameId = 0
+    const duration = 1400
+    const startTime = performance.now()
+
+    const easeOutCubic = (progress) => 1 - (1 - progress) ** 3
+
+    const tick = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1)
+      const easedProgress = easeOutCubic(progress)
+
+      setMetricCounts(metrics.map((item) => Math.round(item.countTo * easedProgress)))
+
+      if (progress < 1) {
+        animationFrameId = window.requestAnimationFrame(tick)
+      }
+    }
+
+    animationFrameId = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(animationFrameId)
+  }, [hasAnimatedMetrics])
 
   useEffect(() => {
     if (!hoveredSkill) {
@@ -457,6 +546,8 @@ function App() {
 
   const activeSkill = activeSkillId ? skillCatalog[activeSkillId] : null
 
+  const formatMetricValue = (item, index) => `${item.prefix ?? ''}${metricCounts[index]}${item.suffix ?? ''}`
+
   const showSkillTooltip = (event, itemId) => {
     const rect = event.currentTarget.getBoundingClientRect()
     const tooltipWidth = 280
@@ -475,6 +566,10 @@ function App() {
 
   const hideSkillTooltip = () => {
     setHoveredSkill(null)
+  }
+
+  const openMetricProof = () => {
+    setIsMetricProofOpen(true)
   }
 
   const renderContactActions = (wrapperClassName = '') => (
@@ -580,6 +675,25 @@ function App() {
           >
             <source src="/hero-background.webm" type="video/webm" />
           </video>
+          <div className="hero-liquid-ether-layer" aria-hidden="true">
+            <LiquidEther
+              colors={heroLiquidEtherColors}
+              mouseForce={18}
+              cursorSize={72}
+              isViscous={false}
+              viscous={30}
+              iterationsViscous={32}
+              iterationsPoisson={28}
+              resolution={0.45}
+              isBounce={false}
+              autoDemo
+              autoSpeed={0.65}
+              autoIntensity={1.75}
+              takeoverDuration={0.25}
+              autoResumeDelay={2600}
+              autoRampDuration={0.6}
+            />
+          </div>
           <div className="hero-overlay" />
           <div className="hero-grid" />
 
@@ -673,13 +787,34 @@ function App() {
                   <p>Focus</p>
                   <strong>AI + Automation + E-commerce Workflow</strong>
                 </div>
-                <div className="metrics-grid">
-                  {metrics.map((item) => (
-                    <article key={item.label} className="metric-card">
-                      <strong>{item.value}</strong>
-                      <span>{item.label}</span>
-                    </article>
-                  ))}
+                <div className="metrics-grid" ref={metricsGridRef}>
+                  {metrics.map((item, index) => {
+                    const isProofMetric = item.countTo === 300 && item.suffix === '+'
+
+                    return (
+                      <article
+                        key={item.label}
+                        className={`metric-card${isProofMetric ? ' metric-card-clickable' : ''}`}
+                        onClick={isProofMetric ? openMetricProof : undefined}
+                        onKeyDown={
+                          isProofMetric
+                            ? (event) => {
+                                if (event.key === 'Enter' || event.key === ' ') {
+                                  event.preventDefault()
+                                  openMetricProof()
+                                }
+                              }
+                            : undefined
+                        }
+                        role={isProofMetric ? 'button' : undefined}
+                        tabIndex={isProofMetric ? 0 : undefined}
+                        aria-label={isProofMetric ? '查看 RPA 流程开发证明图片' : undefined}
+                      >
+                        <strong>{formatMetricValue(item, index)}</strong>
+                        <span>{item.label}</span>
+                      </article>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -825,7 +960,7 @@ function App() {
               onClick={() => setIsContactModalOpen(false)}
               aria-label="关闭联系合作弹窗"
             >
-              ×
+              &times;
             </button>
             <div className="contact-modal-copy">
               <p className="section-kicker">Contact & Collaboration</p>
@@ -854,12 +989,40 @@ function App() {
               onClick={() => setIsQrPreviewOpen(false)}
               aria-label="关闭二维码预览"
             >
-              ×
+              &times;
             </button>
             <p className="qr-lightbox-kicker">WeChat QR</p>
             <h3>扫码添加微信</h3>
             <p className="qr-lightbox-id">xuandong__happy</p>
             <img src={wechatQr} alt="陈鑫微信二维码大图" className="qr-lightbox-image" />
+          </div>
+        </div>
+      ) : null}
+
+      {isMetricProofOpen ? (
+        <div
+          className="qr-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="RPA 流程开发证明图片"
+          onClick={() => setIsMetricProofOpen(false)}
+        >
+          <div
+            className="qr-lightbox-card metric-proof-card"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="qr-lightbox-close"
+              onClick={() => setIsMetricProofOpen(false)}
+              aria-label="关闭 RPA 流程开发证明图片"
+            >
+              &times;
+            </button>
+            <p className="qr-lightbox-kicker">Proof of Work</p>
+            <h3>300+ RPA 流程开发证明</h3>
+            <p className="qr-lightbox-id">累计开发流程数相关截图</p>
+            <img src={rpaProofImage} alt="300+ RPA 流程开发证明截图" className="qr-lightbox-image metric-proof-image" />
           </div>
         </div>
       ) : null}
@@ -882,7 +1045,7 @@ function App() {
               onClick={() => setActiveSkillId('')}
               aria-label="关闭技能详情"
             >
-              ×
+              &times;
             </button>
             <p className="skill-detail-kicker">{activeSkill.category}</p>
             <h3>{activeSkill.label}</h3>
